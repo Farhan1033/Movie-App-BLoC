@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movie_ticket_app/pkg/server/base_url.dart';
+import 'package:movie_ticket_app/pkg/storage/secure_storage.dart';
 
 class AuthRepository {
   final Dio _dio = Dio(
@@ -12,8 +13,14 @@ class AuthRepository {
         'email': email,
         'password': password,
       });
-      if (response.statusCode == 200 && response.data['token'] != null) {
-        return response.data['token'];
+      if (response.statusCode == 200 &&
+          response.data['success']?['token'] != null) {
+        final token = response.data['success']['token'];
+        if (token != null) {
+          await SecureStorage.saveToken(token);
+        }
+
+        return response.data['success']['message'];
       } else {
         throw Exception(response.data['error'] ??
             'Incorrect email and password, or not found');

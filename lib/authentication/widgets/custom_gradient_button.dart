@@ -8,12 +8,12 @@ class CustomGradientButton extends StatelessWidget {
   final double height;
 
   const CustomGradientButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.width,
     this.height = 50,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

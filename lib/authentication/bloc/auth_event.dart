@@ -17,7 +17,7 @@ class LoginRequest extends AuthEvent {
 
 class RegisterRequest extends AuthEvent {
   final String email;
-  final String password; 
+  final String password;
   final String fullName;
   final String phoneNumber;
 
@@ -27,11 +27,6 @@ class RegisterRequest extends AuthEvent {
   List<Object?> get props => [email, password, fullName, phoneNumber];
 }
 
-class LogoutRequest extends AuthEvent {
-  final String token;
+class LogoutRequest extends AuthEvent {}
 
-  LogoutRequest(this.token);
-
-  @override
-  List<Object?> get props => [token];
-}
+class AppStarted extends AuthEvent {}
