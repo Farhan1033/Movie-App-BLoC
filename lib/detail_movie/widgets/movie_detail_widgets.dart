@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_ticket_app/home/models/movie_detail.dart';
+import 'package:movie_ticket_app/detail_movie/models/movie_detail.dart';
 import 'package:movie_ticket_app/pkg/widget/color.dart';
 
 class MovieHeroSection extends StatelessWidget {

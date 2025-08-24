@@ -40,7 +40,7 @@ class MovieDetail {
     return {
       'id': id,
       'title': title,
-      'descriptio': description,
+      'description': description,
       'genre': genre,
       'duration_minutes': durationMinutes,
       'rating': rating,

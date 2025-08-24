@@ -1,4 +1,4 @@
-import 'package:movie_ticket_app/home/models/movie_detail.dart';
+import 'package:movie_ticket_app/detail_movie/models/movie_detail.dart';
 
 class MovieDetailResponse {
   final String message;
