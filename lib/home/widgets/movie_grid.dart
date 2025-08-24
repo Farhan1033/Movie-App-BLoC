@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_ticket_app/home/repositories/movie_schedule_repository.dart';
-import 'package:movie_ticket_app/home/screen/movie_detail_screen.dart';
+import 'package:movie_ticket_app/detail_movie/screen/movie_detail_screen.dart';
 import '../models/movie_schedule.dart';
 import 'movie_card.dart';
 
@@ -47,54 +45,33 @@ class MovieGrid extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         Expanded(
-          child: Builder(
-            builder: (context) {
-              return GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.5,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                ),
-                itemCount: movies.length,
-                itemBuilder: (context, index) {
-                  final movie = movies[index];
-                  return InkWell(
-                    onTap: () {
-                      try {
-                        final repository = context.read<MovieScheduleRepository>();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => MovieDetailScreen(
-                              movieId: movie.movieId,
-                              movieScheduleRepository: repository,
-                            ),
-                          ),
-                        );
-                      } catch (e) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => MovieDetailScreen(
-                              movieId: movie.movieId,
-                              movieScheduleRepository: MovieScheduleRepository(),
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: MovieCard(movie: movie),
+          child: GridView.builder(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            scrollDirection: Axis.horizontal,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.5,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+            itemCount: movies.length,
+            itemBuilder: (context, index) {
+              final movie = movies[index];
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MovieDetailScreen(movieId: movie.movieId),
+                    ),
                   );
                 },
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                child: MovieCard(movie: movie),
               );
             },
           ),
         ),
-        const SizedBox(height: 20),
       ],
     );
   }

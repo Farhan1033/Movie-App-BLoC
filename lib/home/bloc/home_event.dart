@@ -7,10 +7,4 @@ abstract class HomeEvent extends Equatable {
 
 class GetMovieSchedule extends HomeEvent {}
 
-class GetDetailMovie extends HomeEvent {
-  final String movieId;
-  GetDetailMovie(this.movieId);
-
-  @override
-  List<Object?> get props => [movieId];
-}
+class GetMovieComing extends HomeEvent {}

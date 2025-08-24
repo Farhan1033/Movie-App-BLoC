@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:movie_ticket_app/home/models/movie_detail.dart';
 import 'package:movie_ticket_app/home/models/movie_schedule.dart';
+import 'package:movie_ticket_app/home/models/movie_schedule_coming.dart';
 
 abstract class HomeState extends Equatable {
   @override
@@ -13,10 +13,15 @@ class HomeLoading extends HomeState {}
 
 class HomeSuccess extends HomeState {
   final List<MovieSchedule> movies;
-  HomeSuccess(this.movies);
+  final List<MovieScheduleComing> movieComing;
+  
+  HomeSuccess({
+    required this.movies,
+    required this.movieComing,
+  });
 
   @override
-  List<Object?> get props => [movies];
+  List<Object?> get props => [movies, movieComing];
 }
 
 class HomeFailure extends HomeState {
@@ -25,12 +30,4 @@ class HomeFailure extends HomeState {
 
   @override
   List<Object?> get props => [message];
-}
-
-class MovieDetailLoaded extends HomeState {
-  final MovieDetail movie;
-  MovieDetailLoaded(this.movie);
-
-  @override
-  List<Object?> get props => [movie];
 }

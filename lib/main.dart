@@ -6,6 +6,8 @@ import 'package:movie_ticket_app/authentication/bloc/auth_state.dart';
 import 'package:movie_ticket_app/authentication/repositories/auth_repository.dart';
 import 'package:movie_ticket_app/authentication/screens/login_screen.dart';
 import 'package:movie_ticket_app/authentication/screens/register_screen.dart';
+import 'package:movie_ticket_app/detail_movie/bloc/detail_bloc.dart';
+import 'package:movie_ticket_app/detail_movie/repositories/movie_detail_repository.dart';
 import 'package:movie_ticket_app/home/bloc/home_bloc.dart';
 import 'package:movie_ticket_app/home/repositories/movie_schedule_repository.dart';
 import 'package:movie_ticket_app/home/screen/home_screen.dart';
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   final AuthRepository authRepository = AuthRepository();
   final MovieScheduleRepository movieScheduleRepository =
       MovieScheduleRepository();
+  final MovieDetailRepository movieDetailRepository = MovieDetailRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,8 @@ class MyApp extends StatelessWidget {
             BlocProvider<HomeBloc>(
               create: (_) => HomeBloc(movieScheduleRepository),
             ),
+            BlocProvider<DetailBloc>(
+                create: (_) => DetailBloc(movieDetailRepository))
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

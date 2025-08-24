@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const Duration(milliseconds: 2500),
         () {
           if (context.mounted) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).popAndPushNamed('/home');
           }
         },
       );

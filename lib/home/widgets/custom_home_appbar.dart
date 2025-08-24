@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/home_bloc.dart';
-import '../bloc/home_event.dart';
+import 'package:movie_ticket_app/authentication/bloc/auth_bloc.dart';
+import 'package:movie_ticket_app/authentication/bloc/auth_event.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
   const CustomHomeAppBar({super.key});
@@ -45,9 +45,10 @@ class CustomHomeAppBar extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                icon: const Icon(Icons.refresh_rounded, color: Colors.white, size: 24),
+                icon: const Icon(Icons.power_off_rounded,
+                    color: Colors.white, size: 24),
                 onPressed: () {
-                  context.read<HomeBloc>().add(GetMovieSchedule());
+                  context.read<AuthBloc>().add(LogoutRequest());
                 },
               ),
             ),

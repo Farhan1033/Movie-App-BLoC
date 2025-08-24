@@ -1,6 +1,5 @@
-// MovieScheduleRepository - Diperbaiki
 import 'package:dio/dio.dart';
-import 'package:movie_ticket_app/home/models/movie_detail_response.dart';
+import 'package:movie_ticket_app/home/models/movie_schedule_coming_response.dart';
 import 'package:movie_ticket_app/home/models/movie_schedule_response.dart';
 import 'package:movie_ticket_app/pkg/server/base_url.dart';
 import 'package:movie_ticket_app/pkg/storage/secure_storage.dart';
@@ -37,7 +36,6 @@ class MovieScheduleRepository {
             response.data['error'] ?? "Gagal mengambil data jadwal film");
       }
     } on DioException catch (e) {
-      // Handle Dio specific errors
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
         throw Exception("Koneksi timeout, silakan coba lagi");
@@ -56,7 +54,7 @@ class MovieScheduleRepository {
     }
   }
 
-  Future<MovieDetailResponse> fetchDetailMovie(String movieId) async {
+  Future<MovieScheduleComingResponse> fetchMovieComingSoon() async {
     try {
       final token = await SecureStorage.findToken();
 
@@ -64,21 +62,16 @@ class MovieScheduleRepository {
         throw Exception("Silakan login terlebih dahulu");
       }
 
-      final response = await _dio.get(
-        '/api/v1/movie/$movieId',
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
-      );
+      final response = await _dio.get('/api/v1/movie',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode == 200) {
-        return MovieDetailResponse.fromJson(response.data);
+        return MovieScheduleComingResponse.fromJson(response.data);
       } else {
         throw Exception(
-            response.data['error'] ?? "Gagal mengambil detail film");
+            response.data['error'] ?? "Gagal mengambil data jadwal film");
       }
     } on DioException catch (e) {
-      // Handle Dio specific errors
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
         throw Exception("Koneksi timeout, silakan coba lagi");
@@ -88,11 +81,9 @@ class MovieScheduleRepository {
         throw Exception("Session expired, silakan login kembali");
       } else if (e.response?.statusCode == 403) {
         throw Exception("Akses tidak diizinkan");
-      } else if (e.response?.statusCode == 404) {
-        throw Exception("Film tidak ditemukan");
       } else {
         throw Exception(
-            e.response?.data['error'] ?? "Gagal mengambil detail film");
+            e.response?.data['error'] ?? "Gagal mengambil data jadwal film");
       }
     } catch (e) {
       throw Exception("Error: $e");
