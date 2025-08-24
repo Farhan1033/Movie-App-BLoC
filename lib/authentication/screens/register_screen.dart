@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (state is AuthSuccess) {
       SnackBarHelper.showSnackBar(context, 'Successfully created an account');
 
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      Future.microtask(() {
         if (context.mounted) {
           Navigator.of(context).pushReplacementNamed('/login');
         }

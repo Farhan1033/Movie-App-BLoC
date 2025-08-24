@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   bool _isPasswordVisible = false;
 
   @override
@@ -33,13 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    if (!_formKey.currentState!.validate()) {
-      return;
+    if (_formKey.currentState?.validate() ?? false) {
+      context.read<AuthBloc>().add(
+            LoginRequest(
+              _emailController.text.trim(),
+              _passwordController.text.trim(),
+            ),
+          );
     }
-
-    context.read<AuthBloc>().add(
-          LoginRequest(_emailController.text, _passwordController.text),
-        );
   }
 
   void _navigateToRegister() {
@@ -90,14 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is AuthSuccess) {
       SnackBarHelper.showSnackBar(context, 'Successful login');
 
-      Future.delayed(
-        const Duration(milliseconds: 2500),
-        () {
-          if (context.mounted) {
-            Navigator.of(context).popAndPushNamed('/home');
-          }
-        },
-      );
+      Future.microtask(() {
+        if (context.mounted) {
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
+      });
     } else if (state is AuthFailure) {
       SnackBarHelper.showSnackBar(context, state.message, isError: true);
     }
@@ -113,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const AuthHeader(
-                title: "Log in",
+                title: "Log In",
                 subtitle:
                     "Enter your credentials and get back to the cinema world.",
               ),
@@ -121,11 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
               _buildFormFields(),
               const SizedBox(height: 24),
               CustomGradientButton(
-                text: "Sign Up",
+                text: "Sign In",
                 onPressed: _login,
               ),
               const SizedBox(height: 16),
-              _buildLoginPrompt(),
+              _buildRegisterPrompt(),
             ],
           ),
         ),
@@ -159,18 +156,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLoginPrompt() {
+  Widget _buildRegisterPrompt() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Already have an account?",
+          "Don't have an account?",
           style: TextStyle(color: Colors.white.withOpacity(0.8)),
         ),
         TextButton(
           onPressed: _navigateToRegister,
           child: const Text(
-            'Sign In',
+            'Sign Up',
             style: TextStyle(
               color: Color(0xFF871308),
               fontWeight: FontWeight.bold,
